@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AuthCredentialsDto } from '../../auth/api/dto/auth-credentials.dto';
 import { use } from 'passport';
+import { Article } from '../../articles/domain/articles.entity';
 
 @Entity()
 export class Users {
@@ -12,6 +13,8 @@ export class Users {
   email: string;
   @Column()
   passwordHash: string;
+  @OneToMany(() => Article, (article) => article.author)
+  articles: Article[];
 
   static addUser(
     authCredentialsDto: AuthCredentialsDto,

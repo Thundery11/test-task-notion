@@ -8,12 +8,11 @@ import { Users } from '../domain/user.entity';
 import * as bcrypt from 'bcryptjs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import e from 'express';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectRepository(Users) private usersRepo: Repository<Users>) {}
-  async signUp(authCredentialsDto: AuthCredentialsDto): Promise<Users> {
+  async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
     try {
       const { login, email, password } = authCredentialsDto;
 
@@ -28,7 +27,7 @@ export class UsersService {
       const hashedPassword = await bcrypt.hash(password, 10);
       const user = Users.addUser(authCredentialsDto, hashedPassword);
 
-      return await this.usersRepo.save(user);
+      await this.usersRepo.save(user);
     } catch (e) {
       throw new Error(e);
     }
@@ -41,10 +40,7 @@ export class UsersService {
         throw new NotFoundException({ message: 'user not found' });
       }
       const isValidPassword = await bcrypt.compare(password, user.passwordHash);
-      console.log(
-        '🚀 ~ UsersService ~ validateUser ~ isValidPassword:',
-        isValidPassword,
-      );
+
       if (!isValidPassword) {
         return null;
       }

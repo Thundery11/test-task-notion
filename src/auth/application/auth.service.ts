@@ -14,7 +14,7 @@ export class AuthService {
   ) {}
 
   async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
-    const createdUser = await this.usersService.signUp(authCredentialsDto);
+    await this.usersService.signUp(authCredentialsDto);
   }
 
   async signIn(signInDto: SignInDto): Promise<{ accessToken: string }> {
@@ -26,7 +26,7 @@ export class AuthService {
     return { accessToken };
   }
 
-  async validateUser(email: string, password: string): Promise<Users> {
+  async validateUser(email: string, password: string): Promise<Users | null> {
     return await this.usersService.validateUser(email, password);
   }
 }

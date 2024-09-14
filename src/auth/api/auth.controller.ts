@@ -9,13 +9,13 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/signup')
-  signUp(@Body() authCredentialsDto: AuthCredentialsDto): Promise<void> {
-    return this.authService.signUp(authCredentialsDto);
+  async signUp(@Body() authCredentialsDto: AuthCredentialsDto): Promise<void> {
+    return await this.authService.signUp(authCredentialsDto);
   }
 
   @UseGuards(LocalAuthGuard)
   @Post('/signin')
-  signIn(@Body() signInDto: SignInDto): Promise<{ accessToken: string }> {
-    return this.authService.signIn(signInDto);
+  async signIn(@Body() signInDto: SignInDto): Promise<{ accessToken: string }> {
+    return await this.authService.signIn(signInDto);
   }
 }
