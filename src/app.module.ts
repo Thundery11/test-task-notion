@@ -6,7 +6,9 @@ import * as dotenv from 'dotenv';
 import { Users } from './users/domain/user.entity';
 import { ArticlesModule } from './articles/module/articles.module';
 import { Article } from './articles/domain/articles.entity';
-
+import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-yet';
+import { ConfigModule } from '@nestjs/config';
 dotenv.config();
 const { PG_HOST, PG_PORT, PG_DB, PG_USER, PG_PASSWORD } = process.env;
 
@@ -26,6 +28,10 @@ const dbOptions: TypeOrmModuleOptions = {
   imports: [
     TypeOrmModule.forRoot(dbOptions),
     TypeOrmModule.forFeature([Users, Article]),
+    CacheModule.register({ isGlobal: true, ttl: 30 * 1000, store: redisStore }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     AuthModule,
     UsersModule,
     ArticlesModule,
