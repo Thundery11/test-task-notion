@@ -28,7 +28,7 @@ const dbOptions: TypeOrmModuleOptions = {
   imports: [
     TypeOrmModule.forRoot(dbOptions),
     TypeOrmModule.forFeature([Users, Article]),
-    CacheModule.register({ isGlobal: true, ttl: 30 * 1000, store: redisStore }),
+    CacheModule.register({ isGlobal: true, ttl: 60 * 1000, store: redisStore }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),

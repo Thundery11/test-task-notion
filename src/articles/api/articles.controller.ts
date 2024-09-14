@@ -11,6 +11,7 @@ import {
   Put,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { Article } from '../domain/articles.entity';
@@ -20,7 +21,9 @@ import { JwtAuthGuard } from '../../auth/guards/jwt.auth.guard';
 import { SortingQueryParams } from './dto/sorting/sorting-query.dto';
 import { AllArticlesOutputModel } from './dto/output/articles.output.model';
 import { UpdateArticleDto } from './dto/udate-article.dto';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
+@UseInterceptors(CacheInterceptor)
 @Controller('articles')
 export class ArticlesController {
   constructor(private articlesService: ArticlesService) {}
@@ -56,6 +59,7 @@ export class ArticlesController {
   ): Promise<AllArticlesOutputModel | null> {
     return await this.articlesService.getArticles(sortingParams);
   }
+
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)

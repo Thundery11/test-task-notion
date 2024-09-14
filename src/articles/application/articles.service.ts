@@ -5,11 +5,11 @@ import { ArticlesRepository } from '../repository/articles.repository';
 import { SortingQueryParams } from '../api/dto/sorting/sorting-query.dto';
 import { AllArticlesOutputModel } from '../api/dto/output/articles.output.model';
 import { UpdateArticleDto } from '../api/dto/udate-article.dto';
-
+import { Cache } from 'cache-manager';
 @Injectable()
 export class ArticlesService {
   constructor(
-    // @Inject('CACHE_MANAGER') private cacheManager: Cache,
+    @Inject('CACHE_MANAGER') private cacheManager: Cache,
     private articleRepository: ArticlesRepository,
   ) {}
 
