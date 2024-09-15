@@ -1,7 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { AuthCredentialsDto } from '../../auth/api/dto/auth-credentials.dto';
-import { use } from 'passport';
 import { Article } from '../../articles/domain/articles.entity';
+import { AuthCredentialsDto } from '../../auth/api/dto/auth-credentials.dto';
 
 @Entity()
 export class Users {

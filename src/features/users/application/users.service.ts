@@ -3,11 +3,11 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { AuthCredentialsDto } from '../../auth/api/dto/auth-credentials.dto';
 import { Users } from '../domain/user.entity';
 import * as bcrypt from 'bcryptjs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { AuthCredentialsDto } from '../../auth/api/dto/auth-credentials.dto';
 
 @Injectable()
 export class UsersService {

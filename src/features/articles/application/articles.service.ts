@@ -6,6 +6,7 @@ import { SortingQueryParams } from '../api/dto/sorting/sorting-query.dto';
 import { AllArticlesOutputModel } from '../api/dto/output/articles.output.model';
 import { UpdateArticleDto } from '../api/dto/udate-article.dto';
 import { Cache } from 'cache-manager';
+import { Paginator } from '../../helpers/paginator';
 @Injectable()
 export class ArticlesService {
   constructor(
@@ -44,15 +45,22 @@ export class ArticlesService {
       pageSize,
       skip,
     );
-    const presentationalArticles = {
-      pagesCount,
-      page: Number(pageNumber),
-      pageSize: Number(pageSize),
+    return Paginator.paginate({
+      pagesCount: pagesCount,
+      pageNumber: pageNumber,
+      pageSize: pageSize,
       totalCount: countedDocuments,
       items: allArticles,
-    };
+    });
+    // // {
+    // //   pagesCount,
+    // //   page: Number(pageNumber),
+    // //   pageSize: Number(pageSize),
+    // //   totalCount: countedDocuments,
+    // //   items: allArticles,
+    // // };
 
-    return presentationalArticles;
+    // return presentationalArticles;
   }
 
   async updateArticle(
