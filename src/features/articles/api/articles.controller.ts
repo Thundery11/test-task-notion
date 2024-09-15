@@ -22,7 +22,9 @@ import { SortingQueryParams } from './dto/sorting/sorting-query.dto';
 import { AllArticlesOutputModel } from './dto/output/articles.output.model';
 import { UpdateArticleDto } from './dto/udate-article.dto';
 import { CacheInterceptor } from '@nestjs/cache-manager';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('articles')
 @Controller('articles')
 export class ArticlesController {
   constructor(private articlesService: ArticlesService) {}

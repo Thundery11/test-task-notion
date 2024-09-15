@@ -3,6 +3,7 @@ import * as cookieParser from 'cookie-parser';
 import { useContainer } from 'class-validator';
 import { AppModule } from '../app.module';
 import { HttpExceptionFilter } from '../infrastructure/exception-filters.ts/exception.filter';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 export const appSettings = (app) => {
   app.enableCors();
@@ -29,4 +30,17 @@ export const appSettings = (app) => {
     }),
   );
   app.useGlobalFilters(new HttpExceptionFilter());
+  const config = new DocumentBuilder()
+    .setTitle('Test task notion')
+    .setDescription('Test task notion API')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+
+  const options = {
+    swaggerOptions: {},
+  };
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document, options);
 };
