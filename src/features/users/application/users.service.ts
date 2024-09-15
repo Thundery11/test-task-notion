@@ -18,7 +18,7 @@ export class UsersService {
 
       const isExistUser = await this.usersRepo.findOne({
         where: { email: email },
-      });
+      }); //проверяем, есть ли пользователь с таким email в бд
       if (isExistUser) {
         throw new BadRequestException({
           message: 'user with this email already registered',
@@ -27,7 +27,7 @@ export class UsersService {
       const hashedPassword = await bcrypt.hash(password, 10);
       const user = Users.addUser(authCredentialsDto, hashedPassword);
 
-      await this.usersRepo.save(user);
+      await this.usersRepo.save(user); //запсываем юзера в бд
     } catch (e) {
       throw new Error(e);
     }
@@ -35,11 +35,11 @@ export class UsersService {
 
   async validateUser(email: string, password: string): Promise<Users | null> {
     try {
-      const user = await this.usersRepo.findOne({ where: { email: email } });
+      const user = await this.usersRepo.findOne({ where: { email: email } }); //находим юзера по email, если нет - бросаем 404
       if (!user) {
         throw new NotFoundException({ message: 'user not found' });
       }
-      const isValidPassword = await bcrypt.compare(password, user.passwordHash);
+      const isValidPassword = await bcrypt.compare(password, user.passwordHash); //сравниваем пароль с хэшированным паролем
 
       if (!isValidPassword) {
         return null;

@@ -16,14 +16,13 @@ import {
 import { CreateArticleDto } from './dto/create-article.dto';
 import { Article } from '../domain/articles.entity';
 import { ArticlesService } from '../application/articles.service';
-import { CurrentUserId } from '../../../decorators/current-user-id.decorator';
+import { CurrentUserId } from '../../../infrastructure/decorators/current-user-id.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt.auth.guard';
 import { SortingQueryParams } from './dto/sorting/sorting-query.dto';
 import { AllArticlesOutputModel } from './dto/output/articles.output.model';
 import { UpdateArticleDto } from './dto/udate-article.dto';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 
-@UseInterceptors(CacheInterceptor)
 @Controller('articles')
 export class ArticlesController {
   constructor(private articlesService: ArticlesService) {}
@@ -35,7 +34,7 @@ export class ArticlesController {
     @Body() createArticleDto: CreateArticleDto,
     @CurrentUserId() userId: number,
   ): Promise<Article> {
-    return await this.articlesService.addArticle(createArticleDto, userId);
+    return await this.articlesService.addArticle(createArticleDto, userId); //добавляем статью
   }
   @UseGuards(JwtAuthGuard)
   @Put(':id')
@@ -49,7 +48,7 @@ export class ArticlesController {
       userId,
       articleId,
       updateArticleDto,
-    );
+    ); //обновляем статью
   }
 
   @Get()
@@ -57,7 +56,7 @@ export class ArticlesController {
   async getArticles(
     @Query() sortingParams: SortingQueryParams,
   ): Promise<AllArticlesOutputModel | null> {
-    return await this.articlesService.getArticles(sortingParams);
+    return await this.articlesService.getArticles(sortingParams); //получаем список статей с пагинацией
   }
 
   @UseGuards(JwtAuthGuard)
@@ -67,6 +66,6 @@ export class ArticlesController {
     @Param('id', ParseIntPipe) articleId: number,
     @CurrentUserId() userId: number,
   ): Promise<boolean> {
-    return await this.articlesService.deleteArticle(userId, articleId);
+    return await this.articlesService.deleteArticle(userId, articleId); //удаляем статью
   }
 }

@@ -18,6 +18,6 @@ export class Article {
   @Column()
   authorId: number;
 
-  @ManyToOne(() => Users, (u) => u.articles)
+  @ManyToOne(() => Users, (u) => u.articles) //отношение многие к одному
   author: Users;
 }

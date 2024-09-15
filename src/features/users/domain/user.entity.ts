@@ -12,10 +12,11 @@ export class Users {
   email: string;
   @Column()
   passwordHash: string;
-  @OneToMany(() => Article, (article) => article.author)
+  @OneToMany(() => Article, (article) => article.author) //отношение один ко многим
   articles: Article[];
 
   static addUser(
+    //статический метод для добавления юзера
     authCredentialsDto: AuthCredentialsDto,
     hashedPassword: string,
   ) {

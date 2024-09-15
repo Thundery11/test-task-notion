@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcryptjs';
 import { AuthCredentialsDto } from '../api/dto/auth-credentials.dto';
 import { UsersService } from '../../users/application/users.service';
 import { Users } from '../../users/domain/user.entity';
@@ -21,7 +20,7 @@ export class AuthService {
     const { email, password } = signInDto;
     const user = await this.validateUser(email, password); // Метод проверки пользователя
     const payload = { email, sub: user.id };
-    const accessToken = await this.jwtService.sign(payload);
+    const accessToken = this.jwtService.sign(payload);
 
     return { accessToken };
   }
